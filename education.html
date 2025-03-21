@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полное руководство по Умре | Идель Тур</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2a2f89;
+            --secondary: #00aab4;
+            --accent: #fab400;
+            --text: #2d3237;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: var(--text);
+            line-height: 1.8;
+            padding-top: 80px;
+        }
+
+        /* Шапка */
+        .header {
+            background: white;
+            padding: 15px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: all 0.3s;
+        }
+
+        .nav-link.current {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white !important;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(42,47,137,0.3);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Основной контент */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 30px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .hadith-block {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .arabic-text {
+            font-size: 22px;
+            text-align: right;
+            direction: rtl;
+            line-height: 1.8;
+            margin: 20px 0;
+            font-family: 'Amiri', serif;
+        }
+
+        ul, ol {
+            padding-left: 25px;
+            margin: 20px 0;
+        }
+
+        li {
+            margin: 12px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .warning-note {
+            background: #fff3e0;
+            border: 1px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .scroll-top.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                padding: 30px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                transition: right 0.4s ease;
+            }
+
+            .nav.active {
+                right: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <a href="index.html" class="logo">Идель Тур</a>
+        <nav class="nav" id="mainNav">
+            <a href="index.html" class="nav-link">Главная</a>
+            <a href="#tours" class="nav-link">Туры</a>
+            <a href="education.html" class="nav-link current">Обучение</a>
+            <a href="#contact" class="nav-link">Контакты</a>
+            <a href="#form" class="cta-button">Записаться</a>
+        </nav>
+        <i class="fas fa-bars mobile-menu" id="mobileMenu"></i>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="container">
+        <h1 class="section-title">Полное руководство по Умре</h1>
+
+        <!-- Раздел: Общее -->
+        <section class="content-card">
+            <h3>Что такое Умра</h3>
+            <p>«Умра» (от слова «и’тимар» – посещение) - это обряд, включающий:</p>
+            <ul>
+                <li>Посещение Каабы</li>
+                <li>Обход вокруг Каабы (Таваф)</li>
+                <li>Ритуальный бег между холмами Сафа и Марва (Са'ий)</li>
+                <li>Стрижка или бритьё волос</li>
+            </ul>
+
+            <div class="hadith-block">
+                <div class="arabic-text">
+                    عَنِ ابْنِ عَبَّاسٍ رَضِيَ اللهُ عَنْهُمَا أَنَّ النَّبِيَّ صلى الله عليه وسلم قَالَ: الْعُمْرَةُ فِي رَمَضَانَ تَعْدِلُ حَجَّةً
+                </div>
+                <p>"Умра в Рамадан приравнивается к Хаджу" (Бухари)</p>
+            </div>
+        </section>
+
+        <!-- Обязательность Умры -->
+        <section class="content-card">
+            <h3>Обязательность Умры</h3>
+            <p>Согласно ханафитскому мазхабу:</p>
+            <ul>
+                <li>Сунна муаккада (сильная сунна)</li>
+                <li>Пожизненная обязанность для способных</li>
+            </ul>
+            
+            <div class="hadith-block">
+                <div class="arabic-text">
+                    الْإِسْلَامُ أَنْ تَشْهَدَ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ...
+                </div>
+                <p>«Ислам – это свидетельство, что нет бога, кроме Аллаха...» (Муслим)</p>
+            </div>
+        </section>
+
+        <!-- Достоинства Умры -->
+        <section class="content-card">
+            <h3>7 главных достоинств Умры</h3>
+            <ol>
+                <li>Прощение грехов
+                    <div class="hadith-block">
+                        <div class="arabic-text">
+                            عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللهِ صلى الله عليه وسلم: الْعُمْرَةُ إِلَى الْعُمْرَةِ كَفَّارَةٌ لِمَا بَيْنَهُمَا
+                        </div>
+                        <p>«Умра искупает грехи между нею и предыдущей» (Бухари)</p>
+                    </div>
+                </li>
+                <li>Повышение статуса перед Аллахом</li>
+                <li>Духовное очищение</li>
+                <li>Защита от бедности</li>
+                <li>Преумножение награды</li>
+                <li>Исполнение молитв</li>
+                <li>Подготовка к вечной жизни</li>
+            </ol>
+        </section>
+
+        <!-- Особенности в Рамадан -->
+        <section class="content-card">
+            <h3>Особенности в Рамадан</h3>
+            <div class="hadith-block">
+                <div class="arabic-text">
+                    عَنِ ابْنِ عَبَّاسٍ رضي الله عنهما أَنَّ النَّبِيَّ صلى الله عليه وسلم لَمَّا رَجَعَ مِنْ حَجَّةِ الْوَدَاعِ...
+                </div>
+                <p>Пророк (ﷺ) сказал: «Умра в Рамадан равняется Хаджу» (Бухари)</p>
+            </div>
+        </section>
+
+        <!-- Правила совершения -->
+        <section class="content-card">
+            <h3>Основные правила</h3>
+            <div class="warning-note">
+                <p>❗ Обязательные условия:</p>
+                <ul>
+                    <li>Ихрам с Миката</li>
+                    <li>Намерение (ният)</li>
+                    <li>Таваф вокруг Каабы</li>
+                </ul>
+            </div>
+
+            <h4>Этапы совершения</h4>
+            <ol>
+                <li>Ихрам
+                    <div class="arabic-text">
+                        لَبَّيْكَ اللَّهُمَّ عُمْرَةً
+                    </div>
+                </li>
+                <li>Таваф (7 кругов)</li>
+                <li>Са'ий (7 пробежек)</li>
+                <li>Хальк (стрижка волос)</li>
+            </ol>
+        </section>
+
+        <!-- Условия совершения -->
+        <section class="content-card">
+            <h3>Условия действительности</h3>
+            <ul>
+                <li>Ислам</li>
+                <li>Разум</li>
+                <li>Совершеннолетие</li>
+                <li>Физическая возможность</li>
+                <li>Для женщин - махрам</li>
+            </ul>
+        </section>
+
+        <!-- Время совершения -->
+        <section class="content-card">
+            <h3>Благоприятное время</h3>
+            <p>Лучшие периоды:</p>
+            <ul>
+                <li>Рамадан</li>
+                <li>Первые 10 дней Зуль-Хиджы</li>
+                <li>Любое время года, кроме дней Хаджа</li>
+            </ul>
+        </section>
+
+        <!-- Многократное совершение -->
+        <section class="content-card">
+            <h3>Многократное совершение</h3>
+            <div class="hadith-block">
+                <div class="arabic-text">
+                    كَانَ عَبْدُ اللَّهِ بْنُ عُمَرَ رَضِيَ اللَّهُ عَنْهُمَا يُعْتَمِرُ فِي كُلِّ سَنَةٍ مَرَّتَيْنِ
+                </div>
+                <p>Ибн Умар совершал Умру дважды в год</p>
+            </div>
+        </section>
+
+        <!-- Столпы Умры -->
+        <section class="content-card">
+            <h3>4 столпа Умры</h3>
+            <ol>
+                <li>Ихрам</li>
+                <li>Таваф</li>
+                <li>Са'ий</li>
+                <li>Хальк</li>
+            </ol>
+        </section>
+
+        <!-- Ихрам -->
+        <section class="content-card">
+            <h3>Подробно об Ихрам</h3>
+            <p>Микаты для российских паломников:</p>
+            <ul>
+                <li>Зуль-Хулейфа (Медиа)</li>
+                <li>Аль-Джухфа (Рабиг)</li>
+                <li>Карн аль-Маназиль (ас-Сайль)</li>
+            </ul>
+
+            <div class="warning-note">
+                <p>Запреты в Ихраме:</p>
+                <ul>
+                    <li>Стрижка волос</li>
+                    <li>Использование духов</li>
+                    <li>Охота</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Таваф -->
+        <section class="content-card">
+            <h3>Правила Тавафа</h3>
+            <ol>
+                <li>Намерение</li>
+                <li>Начало у Черного камня</li>
+                <li>7 кругов против часовой стрелки</li>
+                <li>Молитва у Макама Ибрахима</li>
+            </ol>
+
+            <div class="hadith-block">
+                <div class="arabic-text">
+                    مَنْ طَافَ بِالْبَيْتِ أُسْقِطَ عَنْهُ بِكُلِّ خَطْوَةٍ حَسَنَةٌ وَرُفِعَ لَهُ بِهَا دَرَجَةٌ
+                </div>
+                <p>«За каждый шаг при Тавафе - награда и возвышение степени»</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Кнопка "Наверх" -->
+    <div class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <script>
+        // Мобильное меню
+        const mobileMenu = document.getElementById('mobileMenu');
+        const nav = document.getElementById('mainNav');
+
+        mobileMenu.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenu.classList.toggle('fa-times');
+        });
+
+        // Анимации
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.content-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Кнопка "Наверх"
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.querySelector('.scroll-top');
+            scrollTop.classList.toggle('show', window.scrollY > 600);
+        });
+
+        // Закрытие меню при клике снаружи
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#mainNav') && !e.target.closest('#mobileMenu')) {
+                nav.classList.remove('active');
+                mobileMenu.classList.remove('fa-times');
+            }
+        });
+    </script>
+</body>
+</html>
