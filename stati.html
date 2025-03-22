@@ -865,6 +865,109 @@
                 font-size: 1.75rem;
             }
         }
+/* Стили для навигационной панели */
+.article-nav {
+    position: fixed;
+    left: 0;
+    top: 80px;
+    width: 220px; /* Уменьшенная ширина */
+    height: calc(100vh - 80px - 60px); 
+    background: white;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    padding: 15px;
+    overflow-y: auto;
+    z-index: 999;
+    border-radius: 0 15px 15px 0; /* Закругление правых углов */
+    transition: transform 0.3s ease;
+}
+
+.article-nav .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.article-nav .nav-header {
+    font-size: 0.95rem;
+    padding: 10px 15px;
+    margin: 10px 0;
+    background: rgba(250, 180, 0, 0.1);
+    border-radius: 8px;
+    color: var(--orange);
+}
+
+.article-nav a {
+    display: block;
+    padding: 10px 15px;
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: var(--dark);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.article-nav a:hover {
+    background: rgba(250, 180, 0, 0.08);
+}
+
+.article-nav a.active {
+    background: var(--gradient);
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(250, 180, 0, 0.2);
+}
+
+.article-nav .submenu {
+    list-style: none;
+    padding-left: 15px;
+    margin: 5px 0;
+    border-left: 2px solid rgba(250, 180, 0, 0.3);
+}
+
+.article-nav .submenu a {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    margin: 3px 0;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .article-nav {
+        width: 260px;
+        transform: translateX(-100%);
+        top: 60px;
+        height: calc(100vh - 60px - 60px);
+    }
+    
+    .article-nav.active {
+        transform: translateX(0);
+    }
+    
+    .nav-toggle {
+        display: block;
+        bottom: 20px;
+        left: 15px;
+        padding: 14px;
+    }
+    
+    .article-content {
+        margin-left: 0;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .article-nav {
+        width: 85%;
+        border-radius: 0 15px 15px 0;
+    }
+    
+    .nav-toggle {
+        bottom: 15px;
+        left: 10px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -887,7 +990,37 @@
             </ul>
         </nav>
     </header>
-
+<button class="nav-toggle" style="display: none;">
+    <i class="fas fa-bars"></i>
+</button>
+    <!-- Добавить после header -->
+    <nav class="article-nav">
+        <ul class="nav-list">
+            <li class="nav-header">ОБУЧЕНИЕ</li>
+            <li><a href="#what-is-umra">Что такое Умра</a></li>
+            <li><a href="#obligation">Обязательность Умры</a></li>
+            <li><a href="#virtues">Достоинства Умры</a></li>
+            
+            <li class="nav-header">Особые периоды</li>
+            <li><a href="#ramadan">Умра в Рамадан</a></li>
+            
+            <li class="nav-header">Совершение Умры</li>
+            <li><a href="#rules">Правила</a></li>
+            <li><a href="#conditions">Условия</a></li>
+            <li><a href="#time">Время</a></li>
+            <li><a href="#multiple">О многократном совершении</a></li>
+            
+            <li class="nav-header">Порядок совершения</li>
+            <li><a href="#pillars">Столпы и обязательства</a></li>
+            <li><a href="#ihram">1. Ихрам</a>
+                <ul class="submenu">
+                    <li><a href="#ihram-prohibitions">Запреты</a></li>
+                    <li><a href="#ihram-allowed">Разрешения</a></li>
+                </ul>
+            </li>
+            <li><a href="#tawaf">2. Таваф</a></li>
+        </ul>
+    </nav>
 <main class="article-content">
     <h1>Уроки по умре. Обучение</h1>
     
@@ -897,7 +1030,7 @@
 
     <h2>Об умре</h2>
     
-    <h3>Что такое Умра</h3>
+    <h2 id="what-is-umra">Что такое Умра</h2>
     <p>«Умра» (от слова «и’тимар» – посещение) - это обряд, включающий в себя:</p>
     <ul>
         <li>Посещение Каабы и обход вокруг неё</li>
@@ -925,7 +1058,7 @@
     <p>Существует и другое высказывание Посланника Аллаха: 
     <strong>«Совершайте Хадж и Умру друг за другом».</strong></p>
 
-    <h3>Обязательность Умры</h3>
+    <h3 id="obligation">Обязательность Умры</h3>
     <p>Согласно мнению большинства ученых ханафитского мазхаба:</p>
     <ul>
         <li>Совершение Умры является сунной</li>
@@ -947,7 +1080,7 @@
     </ol>
 
     <p>Если паломник совершил Умру непосредственно во время своего Хаджа, то тем самым он исполнил обязательную Умру, предписанную Исламом. Подобного мнения придерживался и Аль-Касани, автор одного из авторитетнейших источников ханафитского мазхаба <em>«Бадаи’г ас-Санаи’г»</em>.</p>
-<h3>Достоинства Умры</h3>
+<h3 id="virtues">Достоинства Умры</h3>
 <p>В пречистой сунне Пророка, да благословит его Аллах и приветствует, есть следующие тексты, которые указывают на преимущества и награду за совершение Умры:</p>
 
 <ol class="virtues-list">
@@ -1022,7 +1155,7 @@
         </div>
     </li>
 </ol>
-<h3>Особенности Умры в Рамадан</h3>
+ <h2 id="ramadan">Особенности Умры в Рамадан</h2>
 
 <p>Принято считать, что награда за совершение какого-либо поклонения увеличивается:</p>
 <ul>
@@ -1065,7 +1198,7 @@
 </div>
 <h2>Совершение Умры</h2>
 
-<h3>Правила совершения Умры</h3>
+<h2 id="rules">Правила совершения Умры</h2>
 <p>Отправляться в Умру следует с искренним намерением совершить Умру ради Всевышнего Аллаха, стать ближе к Нему. Не стоит желать за это похвалы или звания «хаджия», паломничество не совершают напоказ или ради славы.</p>
 
 <div class="preparation-block">
@@ -1147,7 +1280,7 @@
         </li>
     </ul>
 </div>
-<h3>Условия совершения Умры</h3>
+<h3 id="conditions">Условия совершения Умры</h3>
 
 <p>Совершение Умры является сунной. Совершают ее при наличии четырех общих для всех условий и специального дополнительного условия, касающегося женщин-мусульманок. Условия эти таковы:</p>
 
@@ -1214,7 +1347,7 @@
         </li>
     </ul>
 </div>
-<h3>Время совершения Умры</h3>
+<h3 id="time">Время совершения Умры</h3>
 
 <div class="scholar-opinions">
     <div class="opinion-block">
@@ -1306,8 +1439,7 @@
         <li>Разрешён выход из ихрама после Умры без совершения Хаджа</li>
     </ul>
 </div>
-<h3>О многократном совершении Умры</h3>
-
+<h3 id="multiple">О многократном совершении</h3>
 <div class="historical-cases">
     <div class="case-block">
         <p><strong>Пример из практики сподвижников:</strong></p>
@@ -1445,7 +1577,7 @@
     </div>
 </div>
 
-<h3>1. Ихрам</h3>
+<h3 id="ihram">1. Ихрам</h3>
 
 <div class="ihram-section">
     <div class="definition-block">
@@ -1716,7 +1848,7 @@
     </blockquote>
 
     <p>«Кто бы из произносящих «тальбию» ни произносил её, вместе с ним её обязательно произносят справа и слева от него камни, деревья и всё, что есть на земле насколько можно охватить её взглядом в эту сторону и в эту»</p>
-
+    <h4 id="ihram-prohibitions">Запреты в ихраме</h4>
     <h4>В состоянии «ихрама» паломнику запрещается</h4>
     <ul class="prohibitions-list">
         <li>Иметь интимную близость, а также совершать все то, что активизирует либидо;</li>
@@ -1731,6 +1863,7 @@
         <li>Мужчине в состоянии «ихрама» запрещается надевать скроенную одежду (рубашку, брюки и т.п.) и закрытую (имеющую задник) обувь.</li>
     </ul>
 </div>
+<h4 id="ihram-allowed">Разрешенные действия</h4>
 <h4>В состоянии «ихрама» паломнику разрешается</h4>
 <ul class="allowed-actions">
     <li>Носить часы;</li>
@@ -1745,7 +1878,7 @@
     <li>Мыть голову и тело (не используя для этого стандартные шампунь, гель для душа или мыло), и если при этом выпадет волос, то не будет в том греха.</li>
 </ul>
 <div class="tawaf-section">
-    <h3>2 Таваф (обход Каабы во время Умры)</h3>
+    <h3 id="tawaf">2. Таваф</h3>
     
     <p>По прибытии в Мекку желательно сразу же совершить полное омовение («гусль»). Мы советуем паломникам отдохнуть после дороги, чтобы совершить Умру не машинально, а осознанно.<br>
     Затем паломники направляются в Заповедную мечеть аль-Харам, чтобы выполнить обряды Умры. Считается допустимым и совершение только малого омовения («тахарат»).</p>
@@ -1944,5 +2077,51 @@
         });
 
     </script>
+    <script>
+    // Активация навигационного меню
+    document.addEventListener('DOMContentLoaded', function() {
+        const navToggle = document.querySelector('.nav-toggle');
+        const articleNav = document.querySelector('.article-nav');
+
+        // Переключение мобильного меню
+        navToggle.addEventListener('click', () => {
+            articleNav.classList.toggle('active');
+        });
+
+        // Определение активного раздела
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const link = document.querySelector(`.article-nav a[href="#${id}"]`);
+                
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+                    document.querySelectorAll('.article-nav a.active').forEach(a => a.classList.remove('active'));
+                    if (link) link.classList.add('active');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        // Наблюдение за всеми разделами
+        document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Скрытие меню при клике на мобильных устройствах
+        document.querySelectorAll('.article-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    articleNav.classList.remove('active');
+                }
+            });
+        });
+
+        // Показать/скрыть кнопку меню
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 992) {
+                navToggle.style.display = window.scrollY > 100 ? 'block' : 'none';
+            }
+        });
+    });
+</script>
 </body>
 </html>
