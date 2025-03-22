@@ -370,7 +370,7 @@
 
     @keyframes cardEntrance {
         from {
-            opacity: 0;
+
             transform: translateY(20px) rotateX(30deg);
         }
         to {
@@ -552,15 +552,6 @@
     .btn-request {
         background: var(--gradient);
         color: white;
-    }
-
-    @keyframes cardWave {
-        0% { box-shadow: 0 0 0 0 rgba(250,180,0,0.3); }
-        100% { box-shadow: 0 0 0 15px rgba(250,180,0,0); }
-    }
-
-    .tour-card:active {
-        animation: cardWave 0.4s ease-out;
     }
 
     /* FAQ */
@@ -880,9 +871,6 @@
     .scroll-top.show {
         opacity: 1;
     }
-</style>
-
-
 </style>
 </head>
 <body>
@@ -1326,5 +1314,6 @@
             sections.forEach(section => observer.observe(section));
         });
     </script>
+
 </body>
 </html>
