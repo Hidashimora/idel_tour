@@ -394,7 +394,7 @@
             left: -15px;
             z-index: 1001;
         }
-        
+
         .nav-toggle:hover {
             left: -10px;
         }
@@ -405,6 +405,11 @@
         .scroll-top {
             left: 20px;
             bottom: 20px;
+        }
+        .article-content {
+            padding: 2rem 1rem 2rem 1.5rem !important; /* Добавляем больше левого отступа */
+            margin-left: 0;
+            overflow-x: hidden;
         }
     }
 
@@ -423,6 +428,10 @@
         .footer-content {
             grid-template-columns: 1fr;
         }
+        .article-content {
+            padding-left: 1.8rem !important; /* Дополнительный сдвиг для маленьких экранов */
+        }
+    }
     }
 </style>
 
@@ -441,7 +450,7 @@
             <ul class="nav-links">
                 <li><a href="index.html">Главная</a></li>
                 <li><a href="index.html#tours">Туры</a></li>
-                <li><a href="statii.html" class="current">Обучение</a></li>
+                <li><a href="stati.html" class="current">Обучение</a></li>
                 <li><a href="index.html#contact">Контакты</a></li>
                 <li><a href="#form" class="cta-button">Записаться</a></li>
             </ul>
