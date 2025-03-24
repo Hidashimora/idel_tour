@@ -314,253 +314,6 @@
                 font-size: 1.5rem;
             }
         }
-
-        /* Туры */
-        .tours {
-            padding: 5rem 2rem;
-            background: white;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .tours.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .tours-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .tour-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .tour-card.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .tour-card:nth-child(1) { transition-delay: 0.2s; }
-        .tour-card:nth-child(2) { transition-delay: 0.4s; }
-        .tour-card:nth-child(3) { transition-delay: 0.6s; }
-
-        .tour-header {
-            padding: 1.5rem;
-            background: var(--gradient);
-            color: white;
-        }
-
-        .tour-city {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .tour-price {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        .tour-dates {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .tour-body {
-            padding: 1.5rem;
-        }
-
-        .tour-route {
-            color: var(--dark);
-            font-weight: 600;
-            margin: 1rem 0;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .tour-features {
-            list-style: none;
-            margin: 1rem 0;
-        }
-
-        .tour-features li {
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .tour-features i {
-            color: var(--yellow);
-        }
-
-        .tour-nutrition {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(0,0,0,0.03);
-            border-radius: 10px;
-            font-weight: 500;
-        }
-
-        .tour-buttons {
-            display: grid;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            padding: 1rem;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: var(--transition);
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        .btn-call {
-            background: #2a2f89;
-            color: white;
-        }
-
-        .btn-write {
-            background: var(--yellow);
-            color: var(--dark);
-        }
-
-        .btn-request {
-            background: var(--gradient);
-            color: white;
-        }
-
-        /* FAQ */
-        .faq {
-            padding: 5rem 2rem;
-            background: #f8f9fa;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .faq.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .faq h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .faq-item {
-            background: white;
-            border-radius: 15px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question {
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            transition: background 0.2s ease;
-        }
-
-        .faq-question:hover {
-            background: #f8f9fa;
-        }
-
-        .faq-question::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            height: 1px;
-            background: rgba(0,0,0,0.1);
-            transition: opacity 0.3s ease;
-        }
-
-        .faq-item.active .faq-question::after {
-            opacity: 0;
-        }
-
-        .toggle-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .toggle-icon i {
-            color: white;
-            font-size: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .faq-item.active .toggle-icon {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: 
-                max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.4s ease,
-                padding 0.3s ease;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 1000px;
-            opacity: 1;
-            padding: 0 1.5rem 1.5rem;
-        }
-
-        .faq-answer ul {
-            padding-left: 1.5rem;
-        }
-
-        .faq-answer li {
-            margin: 0.8rem 0;
-            line-height: 1.5;
-        }
-
-        .faq-answer p {
-            margin: 1rem 0;
-        }
-
         /* Футер */
         .footer {
             background: var(--dark);
@@ -929,6 +682,72 @@
     padding: 8px 12px;
     margin: 3px 0;
 }
+.article-nav {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
+}
+
+.article-nav.closed {
+    transform: translateX(-100%);
+}
+
+.nav-toggle {
+    position: fixed;
+    left: 10px;
+    top: 50%;
+    background: var(--gradient);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 998;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    transform: translateY(-50%) translateX(-100%);
+}
+
+.nav-toggle.active {
+    transform: translateY(-50%) translateX(20px);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--dark);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    color: var(--orange);
+    transform: rotate(90deg);
+}
+
+@media (max-width: 992px) {
+    .article-nav {
+        width: 85%;
+        transform: translateX(-100%);
+    }
+    
+    .article-nav.active {
+        transform: translateX(0);
+    }
+    
+    .nav-toggle {
+        display: flex;
+    }
+}
 
 /* Адаптивность */
 @media (max-width: 992px) {
@@ -990,11 +809,9 @@
             </ul>
         </nav>
     </header>
-<button class="nav-toggle" style="display: none;">
-    <i class="fas fa-bars"></i>
-</button>
     <!-- Добавить после header -->
     <nav class="article-nav">
+        <div class="close-btn">×</div>
         <ul class="nav-list">
             <li class="nav-header">ОБУЧЕНИЕ</li>
             <li><a href="#what-is-umra">Что такое Умра</a></li>
@@ -1021,6 +838,7 @@
             <li><a href="#tawaf">2. Таваф</a></li>
         </ul>
     </nav>
+<div class="nav-toggle">☰</div>
 <main class="article-content">
     <h1>Уроки по умре. Обучение</h1>
     
@@ -2122,6 +1940,41 @@
             }
         });
     });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const nav = document.querySelector('.article-nav');
+    const closeBtn = document.querySelector('.close-btn');
+    const navToggle = document.querySelector('.nav-toggle');
+
+    // Обработчик закрытия
+    closeBtn.addEventListener('click', () => {
+        nav.classList.add('closed');
+        navToggle.classList.add('active');
+    });
+
+    // Обработчик открытия
+    navToggle.addEventListener('click', () => {
+        nav.classList.remove('closed');
+        navToggle.classList.remove('active');
+    });
+
+    // Адаптивное поведение
+    window.addEventListener('resize', () => {
+        if(window.innerWidth > 992) {
+            nav.classList.remove('closed');
+            navToggle.classList.remove('active');
+        }
+    });
+
+    // Закрытие при клике вне панели
+    document.addEventListener('click', (e) => {
+        if(!nav.contains(e.target) && !navToggle.contains(e.target)) {
+            nav.classList.add('closed');
+            navToggle.classList.add('active');
+        }
+    });
+});
 </script>
 </body>
 </html>
