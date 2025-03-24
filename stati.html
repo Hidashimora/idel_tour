@@ -389,16 +389,19 @@
         }
 
         .nav-toggle {
-            width: 35px;
-            height: 35px;
+            top: 50vh !important;
+            transform: translateY(-50%);
             left: -15px;
+            z-index: 1001;
         }
         
-        .nav-toggle::after {
-            font-size: 1rem;
+        .nav-toggle:hover {
+            left: -10px;
         }
-    }
-
+        
+        .article-nav.active ~ .nav-toggle {
+            display: none;
+        }
         .scroll-top {
             left: 20px;
             bottom: 20px;
@@ -407,10 +410,9 @@
 
     @media (max-width: 480px) {
         .nav-toggle {
-            bottom: 15px;
-            left: -15px;
             width: 35px;
             height: 35px;
+            top: calc(50% - 40px) !important;
         }
 
         .nav-toggle::after {
@@ -1453,87 +1455,111 @@
         </div>
     </footer>
 
- <script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
-    // ================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==================
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const mainNavLinks = document.querySelector('.nav-links');
+    // ==================== ГЛОБАЛЬНЫЕ НАСТРОЙКИ ====================
+    const mobileMenuBtn = document.querySelector('.mobile-menu');
+    const mainNav = document.querySelector('.nav-links');
     const articleNav = document.querySelector('.article-nav');
-    const navToggle = document.querySelector('.nav-toggle');
-    const closeButtons = document.querySelectorAll('.close-nav');
-    const scrollTop = document.querySelector('.scroll-top');
+    const navToggleBtn = document.querySelector('.nav-toggle');
+    const closeBtns = document.querySelectorAll('.close-nav');
+    const scrollTopBtn = document.querySelector('.scroll-top');
     const faqItems = document.querySelectorAll('.faq-item');
-    const articleContent = document.querySelector('.article-content');
-    let lastScrollPosition = 0;
-    let resizeTimeout;
+    const contentArea = document.querySelector('.article-content');
+    let isAnimating = false;
+    let lastKnownScroll = 0;
 
-    // ================== ОСНОВНОЕ МЕНЮ ==================
+    // ==================== ОСНОВНОЕ МЕНЮ ====================
     function toggleMainMenu() {
-        mainNavLinks.classList.toggle('active');
-        mobileMenu.classList.toggle('fa-times');
+        if (isAnimating) return;
+        isAnimating = true;
+        
+        mainNav.classList.toggle('active');
+        mobileMenuBtn.classList.toggle('fa-times');
         document.body.classList.toggle('no-scroll');
+        
+        setTimeout(() => {
+            isAnimating = false;
+        }, 300);
     }
 
-    mobileMenu.addEventListener('click', function(e) {
+    mobileMenuBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         toggleMainMenu();
     });
 
-    // ================== БОКОВОЕ МЕНЮ СТАТЬИ ==================
+    // ==================== БОКОВОЕ МЕНЮ СТАТЬИ ====================
     function toggleArticleNav() {
+        if (isAnimating) return;
+        isAnimating = true;
+        
         articleNav.classList.toggle('active');
         updateContentPadding();
         document.body.classList.toggle('no-scroll');
+        
+        setTimeout(() => {
+            isAnimating = false;
+        }, 300);
     }
 
-    navToggle.addEventListener('click', function(e) {
+    navToggleBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         toggleArticleNav();
     });
 
-    closeButtons.forEach(btn => {
-        btn.addEventListener('click', toggleArticleNav);
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (window.innerWidth < 992) {
+                toggleArticleNav();
+                toggleMainMenu();
+            } else {
+                toggleArticleNav();
+            }
+        });
     });
 
-    // ================== АДАПТАЦИЯ КОНТЕНТА ==================
+    // ==================== АДАПТИВНЫЕ ОТСТУПЫ ====================
     function updateContentPadding() {
         if (window.innerWidth > 992) {
-            articleContent.style.paddingLeft = articleNav.classList.contains('active') 
-                ? `${articleNav.offsetWidth + 20}px` 
+            contentArea.style.paddingLeft = articleNav.classList.contains('active') 
+                ? `${articleNav.offsetWidth + 30}px` 
                 : '2rem';
         } else {
-            articleContent.style.paddingLeft = '1rem';
+            contentArea.style.paddingLeft = '1rem';
         }
     }
 
-    // ================== ПЛАВНЫЙ СКРОЛЛ ==================
-    function smoothScroll(e) {
+    // ==================== ИНТЕЛЛЕКТУАЛЬНЫЙ СКРОЛЛ ====================
+    function smartScroll(e) {
         e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
+        const target = document.querySelector(this.hash);
         
-        if (targetElement) {
-            const headerOffset = 80;
-            const elementPosition = targetElement.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        if (!target) return;
 
+        // Закрытие меню с анимацией
+        if (window.innerWidth < 992) {
+            articleNav.classList.remove('active');
+            mainNav.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }
+
+        // Плавный переход после анимации
+        setTimeout(() => {
+            const headerHeight = 80;
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+            
             window.scrollTo({
-                top: offsetPosition,
+                top: targetPosition,
                 behavior: 'smooth'
             });
-
-            if (window.innerWidth < 992) {
-                toggleMainMenu();
-                toggleArticleNav();
-            }
-        }
+        }, 350);
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', smoothScroll);
+        link.addEventListener('click', smartScroll);
     });
 
-    // ================== АНИМАЦИИ ЭЛЕМЕНТОВ ==================
+    // ==================== АНИМАЦИИ ПРИ ПОЯВЛЕНИИ ====================
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1541,7 +1567,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, {
-        threshold: 0.1,
+        threshold: 0.15,
         rootMargin: '0px 0px -50px 0px'
     });
 
@@ -1549,87 +1575,91 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // ================== FAQ АККОРДЕОН ==================
+    // ==================== ИНТЕРАКТИВНЫЙ FAQ ====================
     faqItems.forEach(item => {
         item.querySelector('.faq-question').addEventListener('click', () => {
             item.classList.toggle('active');
         });
     });
 
-    // ================== КНОПКА НАВЕРХ ==================
-    window.addEventListener('scroll', () => {
-        // Показ/скрытие кнопки
-        scrollTop.classList.toggle('show', window.scrollY > 500);
+    // ==================== КНОПКА "НАВЕРХ" ====================
+    function handleScroll() {
+        // Видимость кнопки
+        scrollTopBtn.classList.toggle('show', window.scrollY > 500);
         
-        // Автоскрытие меню при скролле
+        // Автоскрытие меню
         if (window.innerWidth < 992) {
             const currentScroll = window.pageYOffset;
-            if (Math.abs(currentScroll - lastScrollPosition) > 50) {
-                mainNavLinks.classList.remove('active');
+            if (Math.abs(currentScroll - lastKnownScroll) > 100) {
                 articleNav.classList.remove('active');
-                mobileMenu.classList.remove('fa-times');
+                mainNav.classList.remove('active');
+                mobileMenuBtn.classList.remove('fa-times');
             }
-            lastScrollPosition = currentScroll;
+            lastKnownScroll = currentScroll;
         }
-    });
+    }
 
-    scrollTop.addEventListener('click', () => {
+    window.addEventListener('scroll', handleScroll);
+    scrollTopBtn.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
     });
 
-    // ================== ОБРАБОТКА РЕСАЙЗА ==================
+    // ==================== АДАПТИВНЫЙ ИНТЕРФЕЙС ====================
+    function adaptInterface() {
+        // Центрирование кнопки меню
+        if (window.innerWidth < 992) {
+            const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+            navToggleBtn.style.top = `${vh/2 - navToggleBtn.offsetHeight/2}px`;
+        }
+        
+        // Сброс состояний
+        if (window.innerWidth > 992) {
+            articleNav.classList.remove('active');
+            mainNav.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }
+        
+        updateContentPadding();
+    }
+
     window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            // Сброс меню на десктопе
-            if (window.innerWidth > 992) {
-                mainNavLinks.classList.remove('active');
-                mobileMenu.classList.remove('fa-times');
-            }
-            
-            // Обновление отступов
-            updateContentPadding();
-        }, 150);
+        clearTimeout(this.resizeTimer);
+        this.resizeTimer = setTimeout(adaptInterface, 150);
     });
 
-    // ================== ПОДСВЕТКА АКТИВНЫХ РАЗДЕЛОВ ==================
-    const sections = document.querySelectorAll('h2[id], h3[id], h4[id]');
+    // ==================== АКТИВНЫЕ ССЫЛКИ ====================
     const sectionObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 document.querySelectorAll('.article-nav a').forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active');
-                    }
+                    if (link.hash === `#${id}`) link.classList.add('active');
                 });
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.6 });
 
-    sections.forEach(section => sectionObserver.observe(section));
+    document.querySelectorAll('h2[id], h3[id], h4[id]').forEach(section => {
+        sectionObserver.observe(section);
+    });
 
-    // ================== ЗАКРЫТИЕ МЕНЮ ПО КЛИКУ СНАРУЖИ ==================
+    // ==================== ГЛОБАЛЬНЫЕ СОБЫТИЯ ====================
     document.addEventListener('click', (e) => {
-        // Основное меню
-        if (!e.target.closest('nav') && 
-            mainNavLinks.classList.contains('active')) {
+        // Закрытие меню по клику снаружи
+        if (!e.target.closest('nav') && mainNav.classList.contains('active')) {
             toggleMainMenu();
         }
-
-        // Боковое меню
-        if (!e.target.closest('.article-nav') && 
-            !e.target.closest('.nav-toggle') && 
-            articleNav.classList.contains('active')) {
-            toggleArticleNav();
+        if (!e.target.closest('.article-nav') && !e.target.closest('.nav-toggle')) {
+            articleNav.classList.remove('active');
         }
     });
 
-    // ================== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ==================
+    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+    adaptInterface();
     updateContentPadding();
     document.body.classList.add('js-loaded');
 });
